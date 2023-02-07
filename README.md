@@ -21,4 +21,4 @@ This card relays on the Aula integration made by JBoye <https://github.com/JBoye
 4. Create a new card on a dashboard using the manual option (search for manual and choose the YAML option)
 5. Use the following example code to create the card:
 > type: custom:aula-frontend
- entity: sensor.<name of the Aula sensor>
+> entity: sensor.<name of the Aula sensor>
