@@ -8,7 +8,7 @@ HA card for displaying Aula information
 
 # Prerequirements
 
-This card relays on the Aula integration made by JBoye <https://github.com/JBoye/HA-Aula>. To use this you need this integration installed on your HA.
+This card relays on the Aula integration made by scaarup <https://github.com/scaarup/aula>. To use this you need this integration installed on your HA.
 
 # Installation
 
