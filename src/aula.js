@@ -36,20 +36,23 @@ class Aula extends HTMLElement {
     var today = new Date();
     const entityId = this.config.entity;
     const state = hass.states[entityId];
+    console.log(state);
     let resp = state.attributes;
+    
+    
     let name = resp.friendly_name;
-    let entryTime = Aula.GetEntryTime(resp.checkInTime, resp.entryTime, resp.status);
-    let exitTime = Aula.GetExitTime(resp.checkOutTime, resp.exitTime, resp.exitWith, resp.status);
-    let sleepIntervals = Aula.GetSleepTimes(resp.sleepIntervals, resp.status);
-    let status = `<strong>Status:</strong> ${Aula.GetStatusText(resp.status)}<br />`;
-    let statusicon = `${Aula.GetStatusIcon(resp.status)}`;
-    let useractivities = `${status}${entryTime}${sleepIntervals}${exitTime}</div>`;
-    let imgurl = '/local/aula/picture.jpg'
-    console.log(status);
-
+    let status = this.GetStatusFromState(state.state);
+    let entryTime = this.GetEntryTime(resp.checkInTime, resp.entryTime, status);
+    let exitTime = this.GetExitTime(resp.checkOutTime, resp.exitTime, resp.exitWith, status);
+    let sleepIntervals = this.GetSleepTimes(resp.sleepIntervals, status);
+    
+    let statustext = `<strong>Status:</strong> ${this.GetStatusText(status)}<br />`;
+    let statusicon = `${this.GetStatusIcon(status)}`;
+    let useractivities = `${statustext}${entryTime}${sleepIntervals}${exitTime}</div>`;
+    let imgurl = resp.profilePicture;
 
     if (today.getDay() == 6 || today.getDay() == 0) {
-      statusicon = `${Aula.GetStatusIcon(20)}`;
+      statusicon = `${this.GetStatusIcon(20)}`;
       let container = `<div>` +
         `<div class="picture-container"><div class="picture"><img src="${imgurl}" alt="${name}"></div>${statusicon}</div>` +
         `<div class="user-activities">Weekend!</div>` +
@@ -67,6 +70,7 @@ class Aula extends HTMLElement {
 
       this.content.innerHTML = container;
     }
+    this.content.parentElement.setAttribute("header", `${name}`);
   }
 
   // The user supplied configuration. Throw an exception and Home Assistant
@@ -84,7 +88,7 @@ class Aula extends HTMLElement {
     return 2;
   }
 
-  static GetStatusText(status) {
+  GetStatusText(status) {
     switch (status) {
       case 1:
         return "Syg";
@@ -103,7 +107,7 @@ class Aula extends HTMLElement {
     }
   }
 
-  static GetStatusIcon(status) {
+  GetStatusIcon(status) {
     switch (status) {
       case 1:
         return `<div class="status-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><path d="M160 64c-26.5 0-48 21.5-48 48V276.5c0 17.3-7.1 31.9-15.3 42.5C86.2 332.6 80 349.5 80 368c0 44.2 35.8 80 80 80s80-35.8 80-80c0-18.5-6.2-35.4-16.7-48.9c-8.2-10.6-15.3-25.2-15.3-42.5V112c0-26.5-21.5-48-48-48zM48 112C48 50.2 98.1 0 160 0s112 50.1 112 112V276.5c0 .1 .1 .3 .2 .6c.2 .6 .8 1.6 1.7 2.8c18.9 24.4 30.1 55 30.1 88.1c0 79.5-64.5 144-144 144S16 447.5 16 368c0-33.2 11.2-63.8 30.1-88.1c.9-1.2 1.5-2.2 1.7-2.8c.1-.3 .2-.5 .2-.6V112zM208 368c0 26.5-21.5 48-48 48s-48-21.5-48-48c0-20.9 13.4-38.7 32-45.3V272c0-8.8 7.2-16 16-16s16 7.2 16 16v50.7c18.6 6.6 32 24.4 32 45.3z"/></svg></div>`;
@@ -126,7 +130,7 @@ class Aula extends HTMLElement {
     }
   }
 
-  static GetEntryTime(checkInTime, entryTime, status) {
+  GetEntryTime(checkInTime, entryTime, status) {
     if (status === 2 || status === 1) { return "<br />"; }
 
     if (checkInTime != null) {
@@ -136,7 +140,7 @@ class Aula extends HTMLElement {
     }
   }
 
-  static GetSleepTimes(sleepIntervals, status) {
+  GetSleepTimes(sleepIntervals, status) {
     if (sleepIntervals.length === 0) {
       return "";
     }
@@ -174,7 +178,7 @@ class Aula extends HTMLElement {
 
   }
 
-  static GetExitTime(checkOutTime, exitTime, exitWith, status) {
+  GetExitTime(checkOutTime, exitTime, exitWith, status) {
     if (checkOutTime == null) checkOutTime = "";
     if (exitWith === null) exitWith = "";
     exitTime = (exitTime === "23:59:00") ? "<i>ikke udfyldt</i>" : exitTime.substring(0, 5)
@@ -190,6 +194,28 @@ class Aula extends HTMLElement {
         return `<strong>Hentet af:</strong> ${exitWith} kl. ${checkOutTime.substring(0, 5)}<br />`;
       default:
         return `<strong>Ukendt status: ${status}</strong>`;
+
+    }
+  }
+
+  GetStatusFromState(state) {
+    switch(state) {
+      case "Ikke kommet":
+        return 0
+      case "Syg":
+        return 1;
+      case "Ferie/Fri":
+        return 2;
+      case "Kommet/Til stede":
+        return 3;
+      case "På tur":
+        return 4;
+      case "Sover":
+        return 5;
+      case  "Gået":
+        return 8;
+        default:
+          return state;
 
     }
   }
