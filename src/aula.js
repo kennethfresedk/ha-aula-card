@@ -39,14 +39,36 @@ class Aula extends HTMLElement {
     console.log(state);
     let resp = state.attributes;
     
+<<<<<<< HEAD
     if(state.state === "unavailable") {
       let container =
         `<div>` +
         `No Data available from sensor` +
+=======
+    
+    let name = resp.friendly_name;
+    let status = this.GetStatusFromState(state.state);
+    let entryTime = this.GetEntryTime(resp.checkInTime, resp.entryTime, status);
+    let exitTime = this.GetExitTime(resp.checkOutTime, resp.exitTime, resp.exitWith, status);
+    let sleepIntervals = this.GetSleepTimes(resp.sleepIntervals, status);
+    
+    let statustext = `<strong>Status:</strong> ${this.GetStatusText(status)}<br />`;
+    let statusicon = `${this.GetStatusIcon(status)}`;
+    let useractivities = `${statustext}${entryTime}${sleepIntervals}${exitTime}</div>`;
+    let imgurl = resp.profilePicture;
+
+    if (today.getDay() == 6 || today.getDay() == 0) {
+      statusicon = `${this.GetStatusIcon(20)}`;
+      let container = `<div>` +
+        `<div class="picture-container"><div class="picture"><img src="${imgurl}" alt="${name}"></div>${statusicon}</div>` +
+        `<div class="user-activities">Weekend!</div>` +
+        `<div class="clearfix"></div>` +
+>>>>>>> 5ebfb634690a4a750ff5599065e37c8c80af361e
         `</div>`
 
       this.content.innerHTML = container;
     } else {
+<<<<<<< HEAD
       let name = resp.friendly_name;
       let status = this.GetStatusFromState(state.state);
       let entryTime = this.GetEntryTime(resp.checkInTime, resp.entryTime, status);
@@ -79,6 +101,18 @@ class Aula extends HTMLElement {
       }
       this.content.parentElement.setAttribute("header", `${name}`);
     }
+=======
+      let container =
+        `<div>` +
+        `<div class="picture-container"><div class="picture"><img src="${imgurl}" alt="${name}"></div>${statusicon}</div>` +
+        `<div class="user-activities">${useractivities}</div>` +
+        `<div class="clearfix"></div>` +
+        `</div>`
+
+      this.content.innerHTML = container;
+    }
+    this.content.parentElement.setAttribute("header", `${name}`);
+>>>>>>> 5ebfb634690a4a750ff5599065e37c8c80af361e
   }
 
   // The user supplied configuration. Throw an exception and Home Assistant
