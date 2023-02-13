@@ -17,7 +17,7 @@ exitTime = hendes kl.
 checkOutTime = hentet kl.
 checkInTime = afleveret kl.
 sleepIntervals [] = sove tider
-
+ 
 */
 
 
