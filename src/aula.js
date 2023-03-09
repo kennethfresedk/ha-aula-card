@@ -149,7 +149,7 @@ class Aula extends HTMLElement {
   }
 
   GetSleepTimes(sleepIntervals, status) {
-    if (sleepIntervals.length === 0) {
+    if (sleepIntervals === null || sleepIntervals.length === 0) {
       return "";
     }
 
