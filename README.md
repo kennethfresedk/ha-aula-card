@@ -40,3 +40,4 @@ This card relays on the Aula integration made by scaarup <https://github.com/sca
  
  ## Version 1.0
 The first update since my inital release. This redesigns the html and css, so that it works great with tablets and mobile phones
+https://github.com/kennethfresedk/ha-aula-card/releases/tag/v.1.0
