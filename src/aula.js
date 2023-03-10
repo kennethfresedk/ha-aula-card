@@ -17,7 +17,7 @@ exitTime = hendes kl.
 checkOutTime = hentet kl.
 checkInTime = afleveret kl.
 sleepIntervals [] = sove tider
- 
+
 */
 
 
@@ -38,39 +38,46 @@ class Aula extends HTMLElement {
     const state = hass.states[entityId];
     console.log(state);
     let resp = state.attributes;
-    
-    
-    let name = resp.friendly_name;
-    let status = this.GetStatusFromState(state.state);
-    let entryTime = this.GetEntryTime(resp.checkInTime, resp.entryTime, status);
-    let exitTime = this.GetExitTime(resp.checkOutTime, resp.exitTime, resp.exitWith, status);
-    let sleepIntervals = this.GetSleepTimes(resp.sleepIntervals, status);
-    
-    let statustext = `<strong>Status:</strong> ${this.GetStatusText(status)}<br />`;
-    let statusicon = `${this.GetStatusIcon(status)}`;
-    let useractivities = `${statustext}${entryTime}${sleepIntervals}${exitTime}</div>`;
-    let imgurl = resp.profilePicture;
-
-    if (today.getDay() == 6 || today.getDay() == 0) {
-      statusicon = `${this.GetStatusIcon(20)}`;
-      let container = `<div>` +
-        `<div class="picture-container"><div class="picture"><img src="${imgurl}" alt="${name}"></div>${statusicon}</div>` +
-        `<div class="user-activities">Weekend!</div>` +
-        `<div class="clearfix"></div>` +
+    if(state.state === "unavailable") {
+      let container =
+        `<div>` +
+        `No Data available from sensor` +
         `</div>`
 
       this.content.innerHTML = container;
     } else {
-      let container =
-        `<div>` +
-        `<div class="picture-container"><div class="picture"><img src="${imgurl}" alt="${name}"></div>${statusicon}</div>` +
-        `<div class="user-activities">${useractivities}</div>` +
-        `<div class="clearfix"></div>` +
-        `</div>`
+      let name = resp.friendly_name;
+      let status = this.GetStatusFromState(state.state);
+      let entryTime = this.GetEntryTime(resp.checkInTime, resp.entryTime, status);
+      let exitTime = this.GetExitTime(resp.checkOutTime, resp.exitTime, resp.exitWith, status);
+      let sleepIntervals = this.GetSleepTimes(resp.sleepIntervals, status);
+      
+      let statustext = `<strong>Status:</strong> ${this.GetStatusText(status)}<br />`;
+      let statusicon = `${this.GetStatusIcon(status)}`;
+      let useractivities = `${statustext}${entryTime}${sleepIntervals}${exitTime}</div>`;
+      let imgurl = resp.profilePicture;
 
-      this.content.innerHTML = container;
+      if (today.getDay() == 6 || today.getDay() == 0) {
+        statusicon = `${this.GetStatusIcon(20)}`;
+        let container = `<div>` +
+          `<div class="picture-container"><div class="picture"><img src="${imgurl}" alt="${name}"></div>${statusicon}</div>` +
+          `<div class="user-activities">Weekend!</div>` +
+          `<div class="clearfix"></div>` +
+          `</div>`
+
+        this.content.innerHTML = container;
+      } else {
+        let container =
+          `<div>` +
+          `<div class="picture-container"><div class="picture">${statusicon}<img src="${imgurl}" alt="${name}"></div></div>` +
+          `<div class="user-activities-container"><div class="user-activities">${useractivities}</div></div>` +
+          `<div class="clearfix"></div>` +
+          `</div>`
+        
+        this.content.innerHTML = container;
+      }
+      this.content.parentElement.setAttribute("header", `${name}`);
     }
-    this.content.parentElement.setAttribute("header", `${name}`);
   }
 
   // The user supplied configuration. Throw an exception and Home Assistant
@@ -141,7 +148,7 @@ class Aula extends HTMLElement {
   }
 
   GetSleepTimes(sleepIntervals, status) {
-    if (sleepIntervals.length === 0) {
+    if (sleepIntervals === null || sleepIntervals.length === 0) {
       return "";
     }
 
@@ -180,8 +187,9 @@ class Aula extends HTMLElement {
 
   GetExitTime(checkOutTime, exitTime, exitWith, status) {
     if (checkOutTime == null) checkOutTime = "";
+    
     if (exitWith === null) exitWith = "";
-    exitTime = (exitTime === "23:59:00") ? "<i>ikke udfyldt</i>" : exitTime.substring(0, 5)
+    exitTime = (exitTime === "23:59:00" || exitTime === null) ? "<i>ikke udfyldt</i>" : "kl. " + exitTime.substring(0, 5)
     switch (status) {
       case 1:
       case 2:
@@ -189,7 +197,7 @@ class Aula extends HTMLElement {
       case 3:
       case 4:
       case 5:
-        return `<strong>Hentes af:</strong> ${exitWith} kl. ${exitTime}<br />`;
+        return `<strong>Hentes af:</strong> ${exitWith} ${exitTime}<br />`;
       case 8:
         return `<strong>Hentet af:</strong> ${exitWith} kl. ${checkOutTime.substring(0, 5)}<br />`;
       default:

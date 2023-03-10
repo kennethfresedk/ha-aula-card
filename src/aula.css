@@ -1,57 +1,55 @@
+body {
+    font-family: Roboto,Noto,sans-serif;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    font-weight: 400;
+    height: 100vh;
+    padding: 50px;
+}
+
 #auladailyoverview {
     padding-bottom: 0px;
 }
 #auladailyoverview .name {
     width: 100%;
-    background-color: #e9eef1;
-    padding: 20px 30px;
+    padding: 1.1em 1.6em;
     font-size: 20px;
     font-weight: 900;
 }
 
 #auladailyoverview .picture-container {
-    padding: 30px;
-    
-    position: relative;
-    border-right: 1px solid #e9eef1;
-    
     display: block;
-    font-weight: 400;
-    line-height: 1.5;
+    width: 30%;
+    min-width: 10em;
+    max-width: 300px;
     float: left;
 }
 
-#auladailyoverview .picture {
-    width: 120px;
-    height: 120px;
-    display: block;
-    float: left;
-    position: relative;
+#auladailyoverview div.picture {
+    padding: 1.6em;
+    min-height: 6em;
 }
-#auladailyoverview .picture img
+#auladailyoverview div.picture img
 {
-    position: absolute;
-    z-index: 100;
-    height: calc(100% + 2px);
-    width: calc(100% + 2px);
-    top: -1px;
-    left: -1px;
+    aspect-ratio: 1/1;
     border-radius: 50%;
     overflow: hidden;
     object-fit: cover;
-    max-width: 122px;
-    max-height: 122px;
+    max-width: 100%;
+    height: auto;
 }
 
 #auladailyoverview .status-icon
 {
     background: #007a8d;
-    width: 50px;
-    height: 50px;
+    width: 5%;
+    min-width: 2em;
+    max-width: 57px;
+    aspect-ratio: 1/1;
     border-radius: 50%;
     position: absolute;
-    top: 12px;
-    left: 20px;
+    
+
     z-index: 1030;
 }
 
@@ -60,18 +58,21 @@
     position: absolute;
     left: 50%;
     top: 50%;
-    width: 20px;
-    height: 20px;
+    width: 50%;
+    aspect-ratio: 1/1;
+    height: auto;
     transform: translate(-50%, -50%);
     filter: invert(100%) sepia(8%) saturate(0%) hue-rotate(298deg) brightness(102%) contrast(101%);
 }
 
-#auladailyoverview .user-activities {
-    padding: 40px 40px 20px;
-    width: auto;
-    margin-left: 170px;
+#auladailyoverview .user-activities-container {
+    
     overflow: hidden;
     word-wrap: break-word;
+}
+
+#auladailyoverview .user-activities {
+    padding: 30px;
 }
 
 #auladailyoverview .clearfix {
