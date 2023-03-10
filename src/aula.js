@@ -38,7 +38,7 @@ class Aula extends HTMLElement {
     const state = hass.states[entityId];
     console.log(state);
     let resp = state.attributes;
-    
+
     if(state.state === "unavailable") {
       let container =
         `<div>` +
@@ -70,8 +70,8 @@ class Aula extends HTMLElement {
       } else {
         let container =
           `<div>` +
-          `<div class="picture-container"><div class="picture"><img src="${imgurl}" alt="${name}"></div>${statusicon}</div>` +
-          `<div class="user-activities">${useractivities}</div>` +
+          `<div class="picture-container"><div class="picture">${statusicon}<img src="${imgurl}" alt="${name}"></div></div>` +
+          `<div class="user-activities-container"><div class="user-activities">${useractivities}</div></div>` +
           `<div class="clearfix"></div>` +
           `</div>`
 
