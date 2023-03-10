@@ -38,6 +38,7 @@ class Aula extends HTMLElement {
     const state = hass.states[entityId];
     console.log(state);
     let resp = state.attributes;
+
     if(state.state === "unavailable") {
       let container =
         `<div>` +
@@ -73,7 +74,7 @@ class Aula extends HTMLElement {
           `<div class="user-activities-container"><div class="user-activities">${useractivities}</div></div>` +
           `<div class="clearfix"></div>` +
           `</div>`
-        
+
         this.content.innerHTML = container;
       }
       this.content.parentElement.setAttribute("header", `${name}`);
