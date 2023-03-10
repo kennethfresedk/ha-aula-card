@@ -4,9 +4,11 @@ HA card for displaying Aula information
 # Preview 
 
 Light mode:
+
 ![image](https://user-images.githubusercontent.com/6505811/224432756-70e4d372-6831-461b-94d4-9196d959396d.png)
 
 Dark mode:
+
 ![image](https://user-images.githubusercontent.com/6505811/224433066-7cdabdd8-2fd3-43c1-899c-f05256de8b47.png)
 
 
