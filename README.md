@@ -35,3 +35,8 @@ This card relays on the Aula integration made by scaarup <https://github.com/sca
  type: custom:aula-frontend
  entity: sensor.<name of the Aula sensor>
  ```
+ 
+ # Versions
+ 
+ ## Version 1.0
+The first update since my inital release. This redesigns the html and css, so that it works great with tablets and mobile phones
