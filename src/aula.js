@@ -61,7 +61,7 @@ class Aula extends HTMLElement {
       if (today.getDay() == 6 || today.getDay() == 0) {
         statusicon = `${this.GetStatusIcon(20)}`;
         let container = `<div>` +
-          `<div class="picture-container"><div class="picture"><img src="${imgurl}" alt="${name}"></div>${statusicon}</div>` +
+          `<div class="picture-container"><div class="picture">${statusicon}<img src="${imgurl}" alt="${name}"></div></div>` +
           `<div class="user-activities">Weekend!</div>` +
           `<div class="clearfix"></div>` +
           `</div>`
