@@ -47,7 +47,14 @@ class Aula extends HTMLElement {
 
       this.content.innerHTML = container;
     } else {
-      let name = resp.friendly_name;
+      let name = "";
+      if (this.config.friendly_name != undefined)
+      { 
+        name = this.config.friendly_name;
+      }else
+      {
+        name = resp.friendly_name;
+      }
       let status = this.GetStatusFromState(state.state);
       let entryTime = this.GetEntryTime(resp.checkInTime, resp.entryTime, status);
       let exitTime = this.GetExitTime(resp.checkOutTime, resp.exitTime, resp.exitWith, status);
