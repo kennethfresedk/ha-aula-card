@@ -40,6 +40,7 @@ This card relays on the Aula integration made by scaarup <https://github.com/sca
  ``` 
  type: custom:aula-frontend
  entity: sensor.<name of the Aula sensor>
+ friendly_name: <name to show on card>
  ```
  
  # Versions
