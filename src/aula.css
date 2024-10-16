@@ -48,9 +48,6 @@ body {
     aspect-ratio: 1/1;
     border-radius: 50%;
     position: absolute;
-    
-
-    z-index: 1030;
 }
 
 #auladailyoverview .status-icon svg

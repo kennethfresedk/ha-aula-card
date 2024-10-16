@@ -47,7 +47,14 @@ class Aula extends HTMLElement {
 
       this.content.innerHTML = container;
     } else {
-      let name = resp.friendly_name;
+      let name = "";
+      if (this.config.friendly_name != undefined)
+      { 
+        name = this.config.friendly_name;
+      }else
+      {
+        name = resp.friendly_name;
+      }
       let status = this.GetStatusFromState(state.state);
       let entryTime = this.GetEntryTime(resp.checkInTime, resp.entryTime, status);
       let exitTime = this.GetExitTime(resp.checkOutTime, resp.exitTime, resp.exitWith, status);
@@ -98,12 +105,14 @@ class Aula extends HTMLElement {
 
   GetStatusText(status) {
     switch (status) {
+      case 0:
+        return "Ikke kommet";
       case 1:
         return "Syg";
       case 2:
         return "Ferie/Fri";
       case 3:
-        return "Til stede";
+        return "Kommet";
       case 4:
         return "På tur"
       case 5:
@@ -192,6 +201,8 @@ class Aula extends HTMLElement {
     if (exitWith === null) exitWith = "";
     exitTime = (exitTime === "23:59:00" || exitTime === null) ? "<i>ikke udfyldt</i>" : "kl. " + exitTime.substring(0, 5)
     switch (status) {
+      case 0:
+        return `<strong>Ikke afleveret endnu</strong>`;
       case 1:
       case 2:
         return "<br />";
